@@ -1,0 +1,4 @@
+3
+asdlk 100500
+abacaba 100
+bbb 200
