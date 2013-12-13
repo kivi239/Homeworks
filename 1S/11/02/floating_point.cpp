@@ -101,5 +101,7 @@ int main()
   else 
     printf("It is an incorrect notation\n");
 
+  delete[] number;
+
   return 0;
 }
