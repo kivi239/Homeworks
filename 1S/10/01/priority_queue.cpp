@@ -91,6 +91,7 @@ void remove(Tree *curTree)
 void PriorityQueues::remove(PriorityQueue &q)
 {
   ::remove(q.head);
+  ::remove(q.tail);
 }
 
 int PriorityQueues::size(PriorityQueue &q)
@@ -107,7 +108,7 @@ int PriorityQueues::size(PriorityQueue &q)
 }
 
 void PriorityQueues::merge(PriorityQueue &q)
-{
+{                                                                                                                         
   Node *leftNode = pop(q);
   Node *rightNode = pop(q);                                                                                                           
 
