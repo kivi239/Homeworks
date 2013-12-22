@@ -8,56 +8,56 @@ bool isDigit(char c)
   return ('0' <= c && c <= '9');
 }
 
-bool T(int &, char *);
-bool E_(int &, char *);
-bool F(int &, char *);
-bool T_(int &, char *);
-bool id(int &, char *);
-bool E(int &, char *);
+bool ruleT(int &, char *);
+bool ruleE_(int &, char *);
+bool ruleF(int &, char *);
+bool ruleT_(int &, char *);
+bool isCorrectNumber(int &, char *);
+bool ruleE(int &, char *);
 
 bool isCorrect(int &pos, char *str)
 {
-  return (E(pos, str) && str[pos] == '\0');
+  return (ruleE(pos, str) && str[pos] == '\0');
 }
 
-bool E(int &pos, char *str)
+bool ruleE(int &pos, char *str)
 {
-  return (T(pos, str) && E_(pos, str));                                              
+  return (ruleT(pos, str) && ruleE_(pos, str));                                              
 }
 
-bool E_(int &pos, char *str)
+bool ruleE_(int &pos, char *str)
 {
   if (str[pos] != '+' && str[pos] != '-')
     return true;
   pos++;
-  return (T(pos, str) && E_(pos, str));
+  return (ruleT(pos, str) && ruleE_(pos, str));
 }
 
-bool T(int &pos, char *str)
+bool ruleT(int &pos, char *str)
 {
-  return (F(pos, str) && T_(pos, str));
+  return (ruleF(pos, str) && ruleT_(pos, str));
 }
 
-bool T_(int &pos, char *str)
+bool ruleT_(int &pos, char *str)
 {
   if (str[pos] != '*' && str[pos] != '/')
     return true;
   pos++;
-  return (F(pos, str) && T_(pos, str));
+  return (ruleF(pos, str) && ruleT_(pos, str));
 }
 
-bool F(int &pos, char *str)
+bool ruleF(int &pos, char *str)
 {
   if (str[pos] == '(')
   {
     pos++;
-    bool answer = E(pos, str);
+    bool answer = ruleE(pos, str);
     if (str[pos] != ')')
       return false;
     pos++;
     return answer;
   }
-  return id(pos, str);
+  return isCorrectNumber(pos, str);
 }
 
 enum States
@@ -73,7 +73,7 @@ enum States
   errorCode,
 };
 
-bool id(int &pos, char *number)
+bool isCorrectNumber(int &pos, char *number)
 {
   int state = startCode;
   while (number[pos] != '\0')
@@ -99,10 +99,12 @@ bool id(int &pos, char *number)
     {
       if (cur == '.')
         state = startFracPartCode;
+      else if (cur == 'E')
+        state = startExpCode;
       else if (!isDigit(cur))
         break;                                                         
     }
-    else if (state == startFracPartCode)
+    else if (state == startFracPartCode)                
     {
       if (isDigit(cur))                                                                                         
         state = fracPartCode;
