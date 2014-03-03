@@ -1,3 +1,4 @@
+#include <cstdio>
 #include "list.h"
 
 class DoublyLinkedList : List
@@ -16,6 +17,13 @@ private:
     int value;
     ListElement *next;
     ListElement *prev;
+    ListElement() {}
+    ListElement(int newValue)
+    {
+      value = newValue;
+      next = NULL;
+      prev = NULL;
+    }
   };
 
   ListElement *head;

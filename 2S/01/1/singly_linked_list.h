@@ -1,3 +1,4 @@
+#include <cstdio>
 #include "list.h"
 
 class SinglyLinkedList : List
@@ -15,6 +16,12 @@ private:
   {
     int value;
     ListElement *next;
+    ListElement() {}
+    ListElement(int newValue) 
+    {
+      value = newValue;
+      next = NULL;
+    }
   };
 
   ListElement *head;

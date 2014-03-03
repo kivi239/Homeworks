@@ -1,13 +1,7 @@
 #include <cstdio>
 #include "doubly_linked_list.h"
 
-DoublyLinkedList::DoublyLinkedList()
-{
-  head = new ListElement;
-  head->value = -1;
-  head->next = NULL;
-  head->prev = NULL;
-}
+DoublyLinkedList::DoublyLinkedList() : head(new ListElement(-1)) {}
 
 DoublyLinkedList::~DoublyLinkedList()
 {

@@ -1,12 +1,7 @@
 #include <cstdio>
 #include "singly_linked_list.h"
 
-SinglyLinkedList::SinglyLinkedList()
-{
-  head = new ListElement;
-  head->value = -1;
-  head->next = NULL;
-}
+SinglyLinkedList::SinglyLinkedList() : head(new ListElement(-1)) {}
 
 SinglyLinkedList::~SinglyLinkedList()
 {

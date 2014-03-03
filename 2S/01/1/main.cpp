@@ -56,7 +56,7 @@ int main()
 
     scanf("%d", &command);
   }
-  
+
   return 0;
 }
       
