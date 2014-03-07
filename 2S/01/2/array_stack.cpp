@@ -1,10 +1,12 @@
 #include "array_stack.h"
 
-ArrayStack::ArrayStack() : size(128), occupied(0), arr(new int[128]) {}
+const int firstSize = 128;
+
+ArrayStack::ArrayStack() : size(firstSize), occupied(0), arr(new int[128]) {}
 
 ArrayStack::~ArrayStack()
 {
-  delete arr;
+  delete[] arr;
 }
 
 void ArrayStack::push(int newValue)
@@ -14,7 +16,7 @@ void ArrayStack::push(int newValue)
     int *newArr = new int[size * 2];
     for (int i = 0; i < size; i++)
       newArr[i] = arr[i];
-    delete arr;
+    delete[] arr;
     arr = newArr;
     size *= 2;
   }
