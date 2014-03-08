@@ -39,6 +39,7 @@ int main()
     printf("%d ", a[i]);  
 
   delete[] a;
+  delete s;
 
   return 0;
 }
