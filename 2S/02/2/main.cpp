@@ -28,6 +28,9 @@ int main()
 
   delete console;
   delete file;
+  for (int i = 0; i < n; i++)
+    delete[] a[i];
+  delete[] a;
 
   return 0;
 }
