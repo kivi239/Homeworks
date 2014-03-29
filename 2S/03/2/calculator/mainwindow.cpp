@@ -25,7 +25,7 @@ void MainWindow::answer()
   char operation = ui->operation->currentText().toStdString()[0];
 
   Calculator calc;
-  if (calc.calc(value1, operation, value2) == error)
+  if (calc.calc(value1, value2, operation) == error)
     ui->lineEdit->setText("Error!");
   else
     ui->lineEdit->setText(QString::number(calc.calc(value1, value2, operation)));
