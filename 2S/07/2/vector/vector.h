@@ -3,15 +3,19 @@
 using namespace std;
 
 template <typename T, int size>
+///Class which is used for work with vectors
 class Vector
 {
 public:
   Vector();
   Vector(const Vector &);
+  Vector(int *);
   ~Vector();
 
   Vector<T, size> operator +(Vector &);
   Vector operator - (Vector &);
+  bool operator == (Vector &);
+  ///Method which calculates dot product of two vectors
   T operator * (Vector &);
   bool isZero();
   void print();
@@ -35,9 +39,17 @@ Vector<T, size>::Vector(const Vector &vec)
 }
 
 template <typename T, int size>
+Vector<T, size>::Vector(int *arr)
+{
+  array = new T[size];
+  for (int i = 0; i < size; i++)
+    array[i] = arr[i];
+}
+
+template <typename T, int size>
 Vector<T, size>::~Vector()
 {
-  delete array;
+  delete[] array;
 }
 
 template <typename T, int size>
@@ -48,6 +60,15 @@ Vector<T, size> Vector<T, size>::operator + (Vector &vec)
     result.array[i] = array[i] + vec.array[i];
 
   return result;
+}
+
+template <typename T, int size>
+bool Vector<T, size>::operator == (Vector &vec)
+{
+  for (int i = 0; i < size; i++)
+    if (array[i] != vec.array[i])
+      return false;
+  return true;
 }
 
 template <typename T, int size>
