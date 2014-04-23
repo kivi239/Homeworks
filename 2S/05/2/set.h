@@ -15,6 +15,8 @@ public:
   void remove(T);
   Set intersec(Set &);
   Set un(Set &);
+  int size();
+  bool operator == (Set &);
 
 private:
   struct SetElement
@@ -24,7 +26,7 @@ private:
     SetElement() {}
     SetElement(T _value, SetElement *_next) : value(_value), next(_next) {}
   };
-                                                     
+
   SetElement *head;
 };
 
@@ -32,7 +34,7 @@ template<typename T>
 Set<T>::Set() : head(new SetElement(T(), nullptr)) {}
 
 template<typename T>
-Set<T>::~Set()                              
+Set<T>::~Set()
 {
   SetElement *curElement = head;
   while (curElement != nullptr)
@@ -44,13 +46,13 @@ Set<T>::~Set()
 }
 
 template<typename T>
-void Set<T>::add(T value)                                                      
+void Set<T>::add(T value)
 {
   SetElement *curElement = head;
   while (curElement->next != nullptr && curElement->next->value < value)
     curElement = curElement->next;
-  
-  if (curElement->next != nullptr && curElement->next->value == value)  
+
+  if (curElement->next != nullptr && curElement->next->value == value)
     return;
 
   SetElement *newElement = new SetElement(value, curElement->next);
@@ -75,20 +77,20 @@ bool Set<T>::find(T value)
   SetElement *curElement = head;
   while (curElement->next != nullptr && curElement->next->value < value)
     curElement = curElement->next;
-  
-  return (curElement->next != nullptr && curElement->next->value == value);  
-} 
+
+  return (curElement->next != nullptr && curElement->next->value == value);
+}
 
 template<typename T>
 void Set<T>::remove(T value)
 {
   if (!this->find(value))
     return;
-  
+
   SetElement *curElement = head;
   while (curElement->next != nullptr && curElement->next->value < value)
     curElement = curElement->next;
-  
+
   SetElement *removeElement = curElement->next;
   curElement->next = curElement->next->next;
   delete removeElement;
@@ -113,8 +115,7 @@ Set<T> Set<T>::intersec(Set<T> &set)
       secondElement = secondElement->next;
     else
       firstElement = firstElement->next;
-  
-  } 
+  }
 
   return newSet;
 }
@@ -138,4 +139,38 @@ Set<T> Set<T>::un(Set<T> &set)
   }
 
   return newSet;
+}
+
+template <typename T>
+int Set<T>::size()
+{
+  int result = 0;
+  SetElement *curElement = head;
+  while (curElement != nullptr)
+  {
+    curElement = curElement->next;
+    result++;
+  }
+
+  return result - 1;
+}
+
+template <typename T>
+bool Set<T>::operator == (Set &s)
+{
+  if (this->size() != s.size())
+    return false;
+
+  SetElement *element1 = head->next;
+  SetElement *element2 = s.head->next;
+
+  while (element1 != nullptr)
+  {
+    if (element1->value != element2->value)
+      return false;
+    element1 = element1->next;
+    element2 = element2->next;
+  }
+
+  return true;
 }

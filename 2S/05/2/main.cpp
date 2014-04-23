@@ -1,10 +1,11 @@
-#include <cstdio>
-#include "set.h"
+#include <setTest.h>
 #include <iostream>
 
 int main()
 {
-  Set<int> s;
+  SetTest setTest;
+  QTest::qExec(&setTest);
+  /*Set<int> s;
   s.add(5);
   s.add(2);
   cout << s.find(2) << ' ' << s.find(6) << endl;
@@ -24,6 +25,6 @@ int main()
   s4.add(9);
   Set<int> s5 = s4.un(s);
   s5.print();
-
+  */
   return 0;
-}    
+}
