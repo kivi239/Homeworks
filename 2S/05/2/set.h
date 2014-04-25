@@ -4,6 +4,7 @@
 using namespace std;
 
 template<typename T>
+///Class which is used to work with sets
 class Set
 {
 public:
@@ -13,7 +14,9 @@ public:
   void add(T);
   bool find(T);
   void remove(T);
+  ///Method which returns intersection of two sets
   Set intersec(Set &);
+  ///Method which returns union of two sets
   Set un(Set &);
   int size();
   bool operator == (Set &);
