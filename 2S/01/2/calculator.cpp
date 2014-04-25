@@ -1,4 +1,4 @@
-#include "stackTest.h"
+#include "calculator.h"
 #include <cstdio>
 
 bool isOperator(char c)
@@ -84,10 +84,11 @@ int calc(int a, int b, char c)
   return a / b;
 }
 
-void transformToInt(char *prefix, int l)
+int transformToInt(char *prefix, int l)
 {
   ArrayStack s;
   int id = 0;
+  int answer = 0;
   while (id < l)
   {
     char c = prefix[id];
@@ -117,16 +118,16 @@ void transformToInt(char *prefix, int l)
       s.push(number);
     }
   }
-  printf("%d\n", s.pop());
+  //printf("%d\n", s.pop());
+  return s.pop();
 }
 
-int main()
-{
-  StackTest stackTest;
-  QTest::qExec(&stackTest);
+Calculator::~Calculator() {}
 
-  printf("Please, enter the infix notation\n");
-  char *prefix = new char[1000];
+int Calculator::calc(char *prefix, int size)
+{
+  //printf("Please, enter the infix notation\n");
+  //char *prefix = new char[1000];
   int len = 0;
   transformToPrefix(prefix, len);
   transformToInt(prefix, len);

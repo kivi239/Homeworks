@@ -1,5 +1,4 @@
-#include "quick_sort.h"
-#include "merge_sort.h"
+#include "sortTest.h"
 #include <cstdio>
 #include <ctime>
 #include <cmath>
@@ -11,18 +10,21 @@ int main()
 {
   srand(time(NULL));
 
+  SortTest sortTest;
+  QTest::qExec(&sortTest);
+
   printf("Please, enter an integer n\n");
   int n = 0;
   scanf("%d", &n);
-  
+
   printf("Please, enter the array of size n\n");
   int *a = new int[n];
-  
+
   for (int i = 0; i < n; i++)
     scanf("%d", &a[i]);
 
   Sort *s = new QuickSort();
-  
+
   printf("Please, enter the method of sorting\n1 - QuickSort\n2 - MergeSort\n");
   int method = 0;
   scanf("%d", &method);
@@ -34,9 +36,9 @@ int main()
   }
 
   s->sort(a, a + n);
-  
+
   for (int i = 0; i < n; i++)
-    printf("%d ", a[i]);  
+    printf("%d ", a[i]);
 
   delete[] a;
   delete s;

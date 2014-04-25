@@ -1,7 +1,7 @@
 #include <QtCore/QObject>
 #include <QtTest/QtTest>
-#include "doubly_linked_list.h"
-#include "singly_linked_list.h"
+#include "doublyLinkedList.h"
+#include "singlyLinkedList.h"
 
 class ListTest : public QObject
 {
@@ -10,7 +10,7 @@ public:
   explicit ListTest(QObject *parent = 0) : QObject(parent) {}
 
 private slots:
-  void addTest()
+  void addSinglyTest()
   {
     List *l = new SinglyLinkedList();
     l->add(2);
@@ -19,7 +19,11 @@ private slots:
     QVERIFY(l->size() == 3);
 
     delete l;
-    l = new DoublyLinkedList();
+  }
+
+  void addDoublyTest()
+  {
+    List *l = new DoublyLinkedList();
     l->add(5);
     l->add(3);
     QVERIFY(l->size() == 2);
@@ -35,6 +39,6 @@ private slots:
     QVERIFY(l->size() == 1);
     l->remove(5);
     QVERIFY(l->size() == 0);
+    delete l;
   }
-
 };

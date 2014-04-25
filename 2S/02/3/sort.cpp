@@ -16,20 +16,20 @@ void Sort::sort(int **a, int l, int r)
   int j = r;
   int m = rand() % (r - l + 1) + l;
 
-  while (i <= j) 
+  while (i <= j)
   {
-    while ( a[i][0] < a[m][0]) 
+    while ( a[i][0] < a[m][0])
       i++;
-    while ( a[j][0] > a[m][0]) 
+    while ( a[j][0] > a[m][0])
       j--;
 
-    if (i <= j) 
+    if (i <= j)
     {
       swap(a[i], a[j]);
-      i++; 
+      i++;
       j--;
     }
-  } 
+  }
 
   if (l < j)
     this->sort(a, l, j);

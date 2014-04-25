@@ -18,11 +18,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     list.cpp \
-    doubly_linked_list.cpp \
-    singly_linked_list.cpp
+    doublyLinkedList.cpp \
+    singlyLinkedList.cpp
 
 HEADERS += \
     list.h \
-    doubly_linked_list.h \
-    singly_linked_list.h \
-    listTest.h
+    listTest.h \
+    doublyLinkedList.h \
+    singlyLinkedList.h

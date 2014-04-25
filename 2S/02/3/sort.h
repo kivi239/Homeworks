@@ -1,5 +1,6 @@
 #pragma once
 
+///Class which is used to sort matrix columns
 class Sort
 {
 public:
