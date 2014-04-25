@@ -50,9 +50,8 @@ void HashTable::add(string key, int amount)
 
 void HashTable::remove(string key)
 {
-  if (!this->find(key))
+  if (this->find(key) == 0)
     return;
-
   int hash = hashFunction->getHash(key) % size;
   occupied--;
   all -= listArray[hash].find(key);
@@ -61,7 +60,7 @@ void HashTable::remove(string key)
 
 bool HashTable::find(string key)
 {
-  int hash = hashFunction->getHash(key);
+  int hash = hashFunction->getHash(key) % size;
   return listArray[hash].find(key);
 }
 
@@ -85,12 +84,12 @@ int HashTable::getAll()
   return all;
 }
 
-void HashTable::setHash(int number)
+void HashTable::setHash(int type)
 {
-  if (hashFunction->number() == number)
+  if (hashFunction->type() == type)
     return;
 
-  int newNum = 1 - hashFunction->number();
+  int newNum = 1 - hashFunction->type();
   delete hashFunction;
   if (newNum == simpleCode)
     hashFunction = new SimpleHash();

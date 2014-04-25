@@ -1,8 +1,8 @@
 #include <iostream>
 #include "simple_hash.h"
 #include "polynomial_hash.h"
-#include "listTest.h"
-#include "hash_tableTest.h"
+#include "list_test.h"
+#include "hash_table_test.h"
 
 int main()
 {
@@ -11,7 +11,6 @@ int main()
 
   HashTableTest hashTableTest;
   QTest::qExec(&hashTableTest);
-
 
   return 0;
 }

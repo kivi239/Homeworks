@@ -17,7 +17,7 @@ int PolynomialHash::getHash(string s)
   return hash;
 }
 
-int PolynomialHash::number()
+int PolynomialHash::type()
 {
   return polynomialCode;
 }

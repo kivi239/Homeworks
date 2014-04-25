@@ -8,5 +8,5 @@ public:
   ~PolynomialHash();
 
   int getHash(string s);
-  int number();
+  int type();
 };

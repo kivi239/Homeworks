@@ -8,5 +8,5 @@ public:
   ~SimpleHash();
 
   int getHash(string s);
-  int number();
+  int type();
 };

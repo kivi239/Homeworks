@@ -51,6 +51,7 @@ int List::find(string str)
   ListElement *curElement = head;
   while (curElement->next != nullptr && curElement->next->key != str)
     curElement = curElement->next;
+
   if (curElement->next == nullptr)
     return 0;
   return curElement->next->amount;

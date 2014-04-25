@@ -12,7 +12,7 @@ int SimpleHash::getHash(string s)
   return hash;
 }
 
-int SimpleHash::number()
+int SimpleHash::type()
 {
   return simpleCode;
 }

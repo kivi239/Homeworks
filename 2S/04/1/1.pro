@@ -25,10 +25,10 @@ SOURCES += main.cpp \
     hash_table.cpp
 
 HEADERS += \
-    hash_function.h \
     simple_hash.h \
     polynomial_hash.h \
     hash_table.h \
     list.h \
-    listTest.h \
-    hash_tableTest.h
+    hash_function.h \
+    list_test.h \
+    hash_table_test.h
