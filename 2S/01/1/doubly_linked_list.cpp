@@ -10,7 +10,7 @@ DoublyLinkedList::~DoublyLinkedList()
     ListElement *curElement = head->next;
     delete head;
     head = curElement;
-  } 
+  }
 }
 
 void DoublyLinkedList::add(int value)
@@ -20,11 +20,11 @@ void DoublyLinkedList::add(int value)
     curElement = curElement->next;
   ListElement *newElement = new ListElement;
   newElement->value = value;
-  
+
   newElement->next = curElement->next;
   if (curElement->next != NULL)
     curElement->next->prev = newElement;
-  
+
   curElement->next = newElement;
   newElement->prev = curElement;
 }
@@ -41,12 +41,12 @@ void DoublyLinkedList::remove(int value)
   curElement->next = curElement->next->next;
   if (curElement->next->next != NULL)
     curElement->next->next->prev = curElement->next;
-  
+
   delete tmpElement;
 }
 
 void DoublyLinkedList::print()
-{                                                                                   
+{
   ListElement *curElement = head->next;
   while (curElement != NULL)
   {
@@ -55,3 +55,16 @@ void DoublyLinkedList::print()
   }
   printf("\n");
 }
+
+int DoublyLinkedList::size()
+{
+  ListElement *curElement = head->next;
+  int ans = 0;
+  while (curElement != NULL)
+  {
+    ans++;
+    curElement = curElement->next;
+  }
+  return ans;
+}
+

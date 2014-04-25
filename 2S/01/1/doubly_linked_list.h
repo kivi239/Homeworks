@@ -1,7 +1,7 @@
 #include <cstdio>
 #include "list.h"
 
-class DoublyLinkedList : List
+class DoublyLinkedList : public List
 {
 public:
   DoublyLinkedList();
@@ -10,6 +10,7 @@ public:
   void add(int value);
   void remove(int value);
   void print();
+  int size();
 
 private:
   struct ListElement

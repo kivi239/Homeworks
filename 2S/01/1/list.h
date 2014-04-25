@@ -8,4 +8,5 @@ public:
   virtual void add(int value) = 0;
   virtual void remove(int value) = 0;
   virtual void print() = 0;
+  virtual int size() = 0;
 };

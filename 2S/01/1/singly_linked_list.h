@@ -1,7 +1,7 @@
 #include <cstdio>
 #include "list.h"
 
-class SinglyLinkedList : List
+class SinglyLinkedList : public List
 {
 public:
   SinglyLinkedList();
@@ -10,6 +10,7 @@ public:
   void add(int value);
   void remove(int value);
   void print();
+  int size();
 
 private:
   struct ListElement
@@ -17,7 +18,7 @@ private:
     int value;
     ListElement *next;
     ListElement() {}
-    ListElement(int newValue) 
+    ListElement(int newValue)
     {
       value = newValue;
       next = NULL;

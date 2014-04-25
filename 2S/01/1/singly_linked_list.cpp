@@ -10,7 +10,7 @@ SinglyLinkedList::~SinglyLinkedList()
     ListElement *curElement = head->next;
     delete head;
     head = curElement;
-  } 
+  }
 }
 
 void SinglyLinkedList::add(int value)
@@ -38,7 +38,7 @@ void SinglyLinkedList::remove(int value)
 }
 
 void SinglyLinkedList::print()
-{                                                                                   
+{
   ListElement *curElement = head->next;
   while (curElement != NULL)
   {
@@ -47,3 +47,17 @@ void SinglyLinkedList::print()
   }
   printf("\n");
 }
+
+
+int SinglyLinkedList::size()
+{
+  ListElement *curElement = head->next;
+  int ans = 0;
+  while (curElement != NULL)
+  {
+    ans++;
+    curElement = curElement->next;
+  }
+  return ans;
+}
+

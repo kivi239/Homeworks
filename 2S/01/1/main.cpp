@@ -1,7 +1,6 @@
 #include <cstdio>
-#include "singly_linked_list.h"
-#include "doubly_linked_list.h"
 #include <iostream>
+#include "listTest.h"
 
 using namespace std;
 
@@ -25,8 +24,11 @@ void talkToUser()
 
 int main()
 {
+  ListTest listTest;
+  QTest::qExec(&listTest);
+
   talkToUser();
-  
+
   SinglyLinkedList singleL;
   DoublyLinkedList doubleL;
 
@@ -59,4 +61,3 @@ int main()
 
   return 0;
 }
-      
