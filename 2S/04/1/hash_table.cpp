@@ -48,7 +48,7 @@ void HashTable::add(string key, int amount)
   }
 }
 
-void HashTable::remove(string key)
+void HashTable::remove(const string &key)
 {
   if (this->find(key) == 0)
     return;

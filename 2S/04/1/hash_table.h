@@ -11,7 +11,7 @@ public:
   ~HashTable();
 
   void add(string key, int amount);
-  void remove(string key);
+  void remove(const string &key);
   bool find(string key);
   double loadFactor();
   ///Method which returns maximum length of list in hash table

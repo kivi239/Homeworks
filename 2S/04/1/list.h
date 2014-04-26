@@ -31,7 +31,6 @@ public:
       amount = _amount;
       next = _next;
     }
-
   };
 
 //private:
