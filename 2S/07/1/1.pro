@@ -17,8 +17,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    bag.cpp
+    bag.cpp \
+    AVLTree.cpp
 
 HEADERS += \
     bag.h \
-    bag_test.h
+    bag_test.h \
+    AVLTree.h
+    AVLTree.h
