@@ -16,11 +16,13 @@ SOURCES += main.cpp \
     exception.cpp \
     excAddElement.cpp \
     excDeleteElement.cpp \
-    listtest.cpp
+    listtest.cpp \
+    uniqueList.cpp
 
 HEADERS += \
     list.h \
     exception.h \
     excAddElement.h \
     excDeleteElement.h \
-    listtest.h
+    listtest.h \
+    uniqueList.h

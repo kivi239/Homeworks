@@ -1,7 +1,5 @@
 #include <cstdio>
 #include "list.h"
-#include "excAddElement.h"
-#include "excDeleteElement.h"
 
 List::List() : head(new ListElement(-1)) {}
 
@@ -15,14 +13,11 @@ List::~List()
   }
 }
 
-void List::add(int value)
+void List::addToList(int value)
 { 
   ListElement *curElement = head;
   while (curElement->next != nullptr && curElement->next->value < value)
     curElement = curElement->next;
-
-  if (curElement->next != nullptr && curElement->next->value == value)
-    throw ExcAddElement("This element already exists in list!");
 
   ListElement *newElement = new ListElement;
   newElement->value = value;
@@ -30,13 +25,22 @@ void List::add(int value)
   curElement->next = newElement;
 }
 
-void List::remove(int value)
+bool List::findInList(int value)
+{
+  ListElement *curElement = head;
+  while (curElement->next != nullptr && curElement->next->value != value)
+    curElement = curElement->next;
+  return (curElement->next != nullptr);
+}
+
+void List::removeFromList(int value)
 {
   ListElement *curElement = head;
   while (curElement->next != nullptr && curElement->next->value != value)
     curElement = curElement->next;
   if (curElement->next == nullptr)
-    throw ExcDeleteElement("This element doesn't exist in list!");
+    return;
+    //throw ExcDeleteElement("This element doesn't exist in list!");
 
   ListElement *tmpElement = curElement->next;
   curElement->next = curElement->next->next;
@@ -55,7 +59,7 @@ void List::print()
 }
 
 
-int List::size()
+int List::sizeOfList()
 {
   ListElement *curElement = head->next;
   int ans = 0;
