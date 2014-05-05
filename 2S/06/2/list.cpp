@@ -13,7 +13,7 @@ List::~List()
   }
 }
 
-void List::addToList(int value)
+void List::add(int value)
 { 
   ListElement *curElement = head;
   while (curElement->next != nullptr && curElement->next->value < value)
@@ -25,7 +25,7 @@ void List::addToList(int value)
   curElement->next = newElement;
 }
 
-bool List::findInList(int value)
+bool List::find(int value)
 {
   ListElement *curElement = head;
   while (curElement->next != nullptr && curElement->next->value != value)
@@ -33,7 +33,7 @@ bool List::findInList(int value)
   return (curElement->next != nullptr);
 }
 
-void List::removeFromList(int value)
+void List::remove(int value)
 {
   ListElement *curElement = head;
   while (curElement->next != nullptr && curElement->next->value != value)
@@ -59,7 +59,7 @@ void List::print()
 }
 
 
-int List::sizeOfList()
+int List::size()
 {
   ListElement *curElement = head->next;
   int ans = 0;

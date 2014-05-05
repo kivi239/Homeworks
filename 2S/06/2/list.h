@@ -8,11 +8,11 @@ public:
   List();
   ~List();
 
-  void addToList(int value);
-  void removeFromList(int value);
-  bool findInList(int value);
+  void add(int value);
+  void remove(int value);
+  bool find(int value);
   void print();
-  int sizeOfList();
+  int size();
 
 private:
   struct ListElement

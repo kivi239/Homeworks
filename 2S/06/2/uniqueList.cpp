@@ -6,20 +6,20 @@ UniqueList::UniqueList() {}
 
 void UniqueList::add(int value)
 {
-  if (findInList(value))
+  if (find(value))
     throw ExcAddElement("This element already exists in list!");
 
-  addToList(value);
+  List::add(value);
 }
 
 void UniqueList::remove(int value)
 {
-  if (!findInList(value))
+  if (!find(value))
     throw ExcDeleteElement("This element doesn't exist in list!");
-  removeFromList(value);
+  List::remove(value);
 }
 
 int UniqueList::size()
 {
-  return sizeOfList();
+  return List::size();
 }
