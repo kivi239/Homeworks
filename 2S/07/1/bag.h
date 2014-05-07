@@ -1,5 +1,6 @@
 #include "AVLTree.h"
 
+///Class for multi set
 class Bag : public AVLTree
 {
 public:
