@@ -27,7 +27,11 @@ void TicTacToe::buttonClicked()
   button->setEnabled(false);
   tic.updateState();
   if (tic.isFinished())
-    QMessageBox::information(this, "it's over", tic.result());
+  {
+    int ok = QMessageBox::information(this, "it's over", tic.result());
+    if (ok == QMessageBox::Ok)
+      qApp->quit();
+  }
 }
 
 void TicTacToe::generate()
