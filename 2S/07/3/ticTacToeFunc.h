@@ -1,6 +1,7 @@
 #pragma once
 #include <QString>
 
+///Class for tic-tac-toe functionality
 class TicTacToeFunc
 {
 public:
