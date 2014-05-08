@@ -1,6 +1,8 @@
 #include <QMessageBox>
 #include "ticTacToe.h"
 #include "ui_ticTacToe.h"
+#include <algorithm>
+#include <QDebug>
 
 TicTacToe::TicTacToe(QWidget *parent) :
   QMainWindow(parent),
@@ -19,6 +21,7 @@ void TicTacToe::buttonClicked()
 {
   if (tic.isFinished())
     return;
+
   QPushButton *button = dynamic_cast<QPushButton *> (sender());
   int x = pos[button].first;
   int y = pos[button].second;
@@ -41,10 +44,28 @@ void TicTacToe::generate()
     {
       QPushButton *button = new QPushButton;
       button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-      button->setText(" ");
-      ui->gridLayout->addWidget(button, i, j);
       pos[button] = make_pair(i, j);
+      updateButton(button);
+      ui->gridLayout->addWidget(button, i, j);
 
       connect(button, &QPushButton::clicked, this, &TicTacToe::buttonClicked);
     }
+}
+
+void TicTacToe::updateButton(QPushButton *button)
+{
+  int fieldSize = std::min(geometry().height(), geometry().width());
+
+  QFont fontForButton;
+  fontForButton.setPixelSize(fieldSize * fieldSize/ 2400);
+  button->setFont(fontForButton);
+  button->setText(tic.getCell(pos[button].first, pos[button].second));
+}
+
+void TicTacToe::resizeEvent(QResizeEvent *event)
+{
+  QMainWindow::resizeEvent(event);
+  for (int i = 0; i < 3; i++)
+    for (int j = 0; j < 3; j++)
+      updateButton(dynamic_cast<QPushButton*>(ui->gridLayout->itemAtPosition(i, j)->widget()));
 }

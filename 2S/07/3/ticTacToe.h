@@ -25,4 +25,7 @@ private:
   Ui::TicTacToe *ui;
   QMap<QPushButton *, pair<int, int> > pos;
   TicTacToeFunc tic;
+  void updateButton(QPushButton *button);
+  void resizeEvent(QResizeEvent *event);
+
 };
