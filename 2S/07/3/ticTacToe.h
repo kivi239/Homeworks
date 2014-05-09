@@ -30,4 +30,12 @@ private:
   ///Method which set button's text's size correctly
   void updateButton(QPushButton *button);
   void resizeEvent(QResizeEvent *event);
+
+  ///Method which returns which player occupied this filed
+  QString getCell(int x, int y);
+
+  ///Method which returns state of a game (In progress, X wins or O wins)
+  QString result();
+  int size;
+  bool firstDrawing;
 };

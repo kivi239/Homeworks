@@ -1,6 +1,7 @@
 #include <QtCore/QObject>
 #include <QtTest/QtTest>
 #include "ticTacToeFunc.h"
+#include <cstdio>
 
 class TicTacToeTest : public QObject
 {
@@ -14,7 +15,7 @@ private slots:
     TicTacToeFunc tic;
     for (int i = 0; i < 3; i++)
       for (int j = 0; j < 3; j++)
-        QVERIFY(tic.getCell(i, j) == " ");
+        QVERIFY(tic.getCell(i, j) == TicTacToeFunc::stateFree);
   }
 
   void moveTest()
@@ -22,8 +23,10 @@ private slots:
     TicTacToeFunc tic;
     tic.makeMove(1, 1);
     tic.makeMove(0, 1);
-    QVERIFY(tic.getCell(1, 1) == "X");
-    QVERIFY(tic.getCell(0, 1) == "O");
+    //qDebug() << (int)tic.getCell(1, 1) << ' ' << (int)tic.getCell(0, 1) ;
+    printf("%d %d\n", (int)tic.getCell(1, 1), (int)tic.getCell(0, 1));
+    QVERIFY(tic.getCell(1, 1) == TicTacToeFunc::stateX);
+    QVERIFY(tic.getCell(0, 1) == TicTacToeFunc::stateO);
   }
 
   void winTest()
@@ -34,7 +37,7 @@ private slots:
     tic.makeMove(1, 0);
     tic.makeMove(0, 0);
     tic.makeMove(1, 2);
-    QVERIFY(tic.result() == " X wins!!! ");
+    QVERIFY(tic.getState() == TicTacToeFunc::winX);
   }
 
   void winTest2()
@@ -45,6 +48,6 @@ private slots:
     tic.makeMove(0, 2);
     tic.makeMove(1, 2);
     tic.makeMove(2, 0);
-    QVERIFY(tic.result() == " X wins!!! ");
+    QVERIFY(tic.getState() == TicTacToeFunc::winX);
   }
 };

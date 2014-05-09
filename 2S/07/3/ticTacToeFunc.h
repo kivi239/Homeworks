@@ -8,16 +8,6 @@ public:
   TicTacToeFunc();
   ~TicTacToeFunc();
 
-  ///Method which returns state of cell
-  QString getCell(int x, int y);
-  void makeMove(int x, int y);
-  ///Property which returns state of a game (In progress, X wins or O wins)
-  QString result();
-  void updateState();
-  ///Method which returns true if all cells are filled or if someone wins
-  bool isFinished();
-
-private:
   ///enum for cells
   enum States
   {
@@ -25,12 +15,9 @@ private:
     stateX,
     stateO
   };
-
-  enum Moves
-  {
-    moveX,
-    moveO
-  };
+  ///Method which returns state of cell
+  States getCell(int x, int y);
+  void makeMove(int x, int y);
 
   ///enum which shows current state of game
   enum CurrentState
@@ -39,12 +26,28 @@ private:
     winX,
     winO
   };
+  CurrentState getState();
+  void updateState();
+  ///Method which returns true if all cells are filled or if someone wins
+  bool isFinished();
+  void changeSize(int newSize);
+  int getSize();
 
-  States field[3][3];
+private:
+  enum Moves
+  {
+    moveX,
+    moveO
+  };
+
+
+  States **field;
   Moves move;
   CurrentState state;
 
   Moves nextMove();
   ///Method which returns state of cell after player m makes his move
   States changeState(Moves m);
+  int size;
+  int winSize;
 };

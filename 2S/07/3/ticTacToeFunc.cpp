@@ -3,65 +3,116 @@
 
 TicTacToeFunc::TicTacToeFunc()
 {
-  for (int i = 0; i < 3; i++)
-    for (int j = 0; j < 3; j++)
+  size = 3;
+  winSize = 3;
+  field = new States *[size];
+  for (int i = 0; i < size; i++)
+    field[i] = new States[size];
+  for (int i = 0; i < size; i++)
+    for (int j = 0; j < size; j++)
       field[i][j] = stateFree;
   move = moveX;
-  state = inProcess;
+  state = inProcess; 
 }
 
-TicTacToeFunc::~TicTacToeFunc() {}
-
-QString TicTacToeFunc::getCell(int x, int y)
+TicTacToeFunc::~TicTacToeFunc()
 {
-  if (field[x][y] == stateFree)
-    return " ";
-  else if (field[x][y] == stateX)
-    return "X";
-  else
-    return "O";
+  for (int i = 0; i < size; i++)
+    delete[] field[i];
+  delete[] field;
+}
+
+TicTacToeFunc::States TicTacToeFunc::getCell(int x, int y)
+{
+  return field[x][y];
 }
 
 void TicTacToeFunc::updateState()
 {
   if (state != inProcess)
     return;
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < size; i++)
   {
-    if (field[i][0] != stateFree && field[i][0] == field[i][1] && field[i][1] == field[i][2])
+    for (int j = 0; j < size - winSize + 1; j++)
     {
-      if (field[i][0] == stateX)
+      bool win = true;
+      for (int k = 0; k < winSize - 1; k++)
+        if (field[i][j + k] == TicTacToeFunc::stateFree || field[i][j + k] != field[i][j + k + 1])
+        {
+          win = false;
+          break;
+        }
+      if (!win)
+        continue;
+
+      if (field[i][j] == stateX)
         state = winX;
       else
         state = winO;
       return;
     }
+  }
 
-    if (field[0][i] != stateFree && field[0][i] == field[1][i] && field[1][i] == field[2][i])
+  for (int i = 0; i < size; i++)
+    for (int j = 0; j < size - winSize + 1; j++)
     {
-      if (field[0][i] == stateX)
+      bool win = true;
+      for (int k = 0; k < winSize - 1; k++)
+        if (field[j + k][i] == TicTacToeFunc::stateFree || field[j + k][i] != field[j + k + 1][i])
+        {
+          win = false;
+          break;
+        }
+
+      if (!win)
+        continue;
+
+      if (field[j][i] == stateX)
         state = winX;
       else
         state = winO;
       return;
+  }
+
+  for (int i = 0; i < size - winSize + 1; i++)
+    for (int j = 0; j < size - winSize + 1; j++)
+    {
+      bool win = true;
+      for (int k = 0; k < winSize - 1; k++)
+        if (field[i + k][j + k] == TicTacToeFunc::stateFree || field[i + k][j + k] != field[i + k + 1][j + k + 1])
+        {
+          win = false;
+          break;
+        }
+      if (!win)
+        continue;
+
+      if (field[i][j] == stateX)
+        state = winX;
+      else
+        state = winO;
+
+      return;
     }
-  }
 
-  if (field[0][0] != stateFree && field[0][0] == field[1][1] && field[1][1] == field[2][2])
-  {
-    if (field[0][0] == stateX)
-      state = winX;
-    else
-      state = winO;
-  }
+  for (int i = 0; i < size - winSize + 1; i++)
+    for (int j = winSize - 1; j < size; j++)
+    {
+      bool win = true;
+      for (int k = 0; k < winSize - 1; k++)
+        if (field[i + k][j - k] == TicTacToeFunc::stateFree || field[i + k][j - k] != field[i + k + 1][j - k - 1])
+        {
+          win = false;
+          break;
+        }
+      if (!win)
+        continue;
 
-  if (field[0][2] != stateFree && field[0][2] == field[1][1] && field[1][1] == field[2][0])
-  {
-    if (field[0][2] == stateX)
-      state = winX;
-  else
-      state = winO;
-  }
+      if (field[i][j] == stateX)
+        state = winX;
+      else
+        state = winO;
+    }
 }
 
 TicTacToeFunc::Moves TicTacToeFunc::nextMove()
@@ -87,22 +138,41 @@ void TicTacToeFunc::makeMove(int x, int y)
   move = nextMove();
 }
 
-QString TicTacToeFunc::result()
+TicTacToeFunc::CurrentState TicTacToeFunc::getState()
 {
-  if (state == inProcess)
-    return "   Draw!   ";
-  if (state == winX)
-    return " X wins!!! ";
-  return " O wins!!! ";
+  return state;
 }
 
 bool TicTacToeFunc::isFinished()
 {
   if (state == winX || state == winO)
     return true;
-  for (int i = 0; i < 3; i++)
-    for (int j = 0; j < 3; j++)
+  for (int i = 0; i < size; i++)
+    for (int j = 0; j < size; j++)
       if (field[i][j] == stateFree)
         return false;
+
   return true;
+}
+
+void TicTacToeFunc::changeSize(int newSize)
+{
+  for (int i = 0; i < size; i++)
+    delete[] field[i];
+  delete[] field;
+  field = new States*[newSize];
+  for (int i = 0; i < newSize; i++)
+    field[i] = new TicTacToeFunc::States[newSize];
+  for (int i = 0; i < newSize; i++)
+    for (int j = 0; j < newSize; j++)
+      field[i][j] = TicTacToeFunc::stateFree;
+
+  size = newSize;
+  winSize = 5;
+  move = TicTacToeFunc::moveX;
+}
+
+int TicTacToeFunc::getSize()
+{
+  return size;
 }

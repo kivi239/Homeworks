@@ -1,5 +1,7 @@
+
 QT       += core gui
 QT       += testlib
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = 3
@@ -14,4 +16,4 @@ HEADERS  += ticTacToe.h \
     ticTacToeFunc.h \
     ticTacToeTest.h
 
-FORMS    += ticTacToe.ui
+FORMS    += tictactoe.ui
