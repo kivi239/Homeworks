@@ -41,7 +41,7 @@ SharedPointer<T>& SharedPointer<T>::operator = (SharedPointer &sPtr)
   if (pointer != sPtr.pointer)
   {
     pointer->count--;
-    if (pointer->count == 1)
+    if (pointer->count == 0)
       delete pointer->ptr;
     pointer = sPtr.pointer;
     pointer->count++;
@@ -55,7 +55,10 @@ SharedPointer<T>::~SharedPointer()
 {
   pointer->count--;
   if (pointer->count == 0)
+  {
     delete pointer->pointer;
+    delete pointer;
+  }
 }
 
 template <typename T>
