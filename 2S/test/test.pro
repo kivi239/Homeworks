@@ -22,4 +22,6 @@ SOURCES += main.cpp \
 HEADERS += \
     pair.h \
     complexNumber.h \
-    complexNumberTest.h
+    complexNumberTest.h \
+    pairTest.h
+    pairTest.h

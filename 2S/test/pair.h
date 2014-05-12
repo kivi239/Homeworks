@@ -1,3 +1,5 @@
+#pragma once
+
 ///Class for pair of two doubles
 class Pair
 {
