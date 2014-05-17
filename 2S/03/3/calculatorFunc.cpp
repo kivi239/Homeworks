@@ -29,6 +29,7 @@ QString CalculatorFunc::calc(double number)
 
   lastNumber = answer;
   char *str = new char[20];
+  std::setlocale(LC_NUMERIC, "C");
   sprintf(str, "%.6lf", answer);
   int len = strlen(str);
   QString result = "";
