@@ -18,8 +18,20 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    exprTree.cpp
+    exprTree.cpp \
+    treeNode.cpp \
+    sumNode.cpp \
+    subNode.cpp \
+    mulNode.cpp \
+    divNode.cpp \
+    leafNode.cpp
 
 HEADERS += \
     exprTree.h \
-    exprTreeTest.h
+    exprTreeTest.h \
+    treeNode.h \
+    sumNode.h \
+    subNode.h \
+    mulNode.h \
+    leafNode.h \
+    divNode.h

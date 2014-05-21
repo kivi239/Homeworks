@@ -1,14 +1,20 @@
 #include "exprTree.h"
 #include <iostream>
 #include <cstring>
+#include "sumNode.h"
+#include "subNode.h"
+#include "mulNode.h"
+#include "divNode.h"
+#include "leafNode.h"
 
 using namespace std;
 
-void countBracketsPairs(char *expression, int len, int* pair)
+void countBracketsPairs(QString expression, int* pair)
 {
   int balance = 0;
-  int stack[maxLen];
-  for (int i = 0; i < maxLen; i++)
+  int len = expression.size();
+  int stack[len];
+  for (int i = 0; i < len; i++)
     stack[i] = -1;
   for (int i = 0; i < len; i++)
   {
@@ -22,19 +28,38 @@ void countBracketsPairs(char *expression, int len, int* pair)
   }
 }
 
-int strToInt(char *expression, int first, int last)
+ExprTree::ExprTree(QString from)
+{
+  root = nullptr;
+  int len = from.size();
+  if (len == 0)
+    return;
+
+  int pair[len];
+  for (int i = 0; i < len; i++)
+    pair[i] = -1;
+
+  countBracketsPairs(from, pair);
+  root = createNode(from, 1, len - 2, pair);
+}
+
+double ExprTree::result()
+{
+  return root->result();
+}
+
+int strToInt(QString expression, int first, int last)
 {
   int value = 0;
   int curId = first;
-  while (curId <= last && expression[curId] != ' ')
+  while (curId <= last && expression[curId].toLatin1() != ' ')
   {
     value *= 10;
-    value += expression[curId] - '0';
+    value += expression[curId].toLatin1() - '0';
     curId++;
   }
   return value;
 }
-
 int sizeOfInt(int value)
 {
   int size = 0;
@@ -46,39 +71,10 @@ int sizeOfInt(int value)
   return size;
 }
 
-ExprTree::ExprTree(char *expression, int len)
+TreeNode *ExprTree::createNode(QString expression, int first, int last, int *pair)
 {
-  root = nullptr;
-  if (len == 0)
-    return;
-
-  int pair[maxLen];
-  for (int i = 0; i < maxLen; i++)
-    pair[i] = -1;
-
-  countBracketsPairs(expression, len, pair);
-  root = this->createNode(expression, 1, len - 2, pair);
-}
-
-double ExprTree::getResult(ExprTreeNode *node)
-{
-  if (node->operation == '+')
-    return node->left->value + node->right->value;
-  if (node->operation == '-')
-    return node->left->value - node->right->value;
-  if (node->operation == '*')
-    return node->left->value * node->right->value;
-  if (node->operation == '/')
-    return node->left->value / node->right->value;
-
-  return 0;
-}
-
-ExprTree::ExprTreeNode *ExprTree::createNode(char *expression, int first, int last, int *pair)
-{
-  ExprTree::ExprTreeNode *newNode = new ExprTree::ExprTreeNode();
-  newNode->operation = expression[first];
-
+  TreeNode *left = nullptr;
+  TreeNode *right = nullptr;
   int beginOfLeft = first + 1;
   int beginOfRight = -1;
   while (beginOfLeft <= last && expression[beginOfLeft] == ' ')
@@ -86,77 +82,42 @@ ExprTree::ExprTreeNode *ExprTree::createNode(char *expression, int first, int la
 
   if (expression[beginOfLeft] == '(')
   {
-    newNode->left = createNode(expression, beginOfLeft + 1, pair[beginOfLeft] - 1, pair);
+    left = createNode(expression, beginOfLeft + 1, pair[beginOfLeft] - 1, pair);
     beginOfRight = pair[beginOfLeft] + 1;
   }
   else
   {
-    newNode->left = new ExprTree::ExprTreeNode(strToInt(expression, beginOfLeft, last));
-    beginOfRight = beginOfLeft + sizeOfInt(newNode->left->value) + 1;
+    left = new LeafNode(strToInt(expression, beginOfLeft, last));
+    beginOfRight = beginOfLeft + sizeOfInt(left->result()) + 1;
   }
 
   while (beginOfRight <= last && expression[beginOfRight] == ' ')
     beginOfRight++;
 
   if (expression[beginOfRight] == '(')
-    newNode->right = createNode(expression, beginOfRight + 1, pair[beginOfRight] - 1, pair);
+    right = createNode(expression, beginOfRight + 1, pair[beginOfRight] - 1, pair);
   else
-  {
-    ExprTree::ExprTreeNode *newRightNode = new ExprTree::ExprTreeNode(strToInt(expression, beginOfRight, last));
-    newNode->right = newRightNode;
-  }
+    right = new LeafNode(strToInt(expression, beginOfRight, last));
 
-  newNode->value = getResult(newNode);
+  TreeNode *newNode = nullptr;
+  if (expression[first].toLatin1() == '+')
+    newNode = new SumNode(left, right);
+  if (expression[first].toLatin1() == '-')
+    newNode = new SubNode(left, right);
+  if (expression[first].toLatin1() == '*')
+    newNode = new MulNode(left, right);
+  if (expression[first].toLatin1() == '/')
+    newNode = new DivNode(left, right);
 
   return newNode;
 }
 
-string ExprTree::print(ExprTreeNode *node)
-{
-  string res = "";
-  if (node->operation != '!')
-  {
-    res += "( ";
-    res += node->operation;
-    res += ' ';
-    res += print(node->left);
-    res += ' ';
-    res += print(node->right);
-    res += " )";
-  }
-  else
-  {
-    char *tmp = new char[20];
-    sprintf(tmp, "%.0lf", node->value);
-    int len = strlen(tmp);
-    for (int i = 0; i < len; i++)
-      res += tmp[i];
-    delete tmp;
-  }
-
-  return res;
-}
-
-string ExprTree::print()
-{
-  return print(root);
-}
-
-double ExprTree::result()
-{
-  return getResult(root);
-}
-
-void ExprTree::deleteAll(ExprTreeNode *node)
-{
-  if (node == nullptr)
-      return;
-  deleteAll(node->left);
-  deleteAll(node->right);
-  delete node;
-}
-
 ExprTree::~ExprTree()
 {
-  deleteAll(root);
+  delete root;
+}
+
+QString ExprTree::print()
+{
+  return root->print();
 }
