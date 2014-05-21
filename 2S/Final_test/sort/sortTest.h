@@ -41,6 +41,7 @@ private slots:
     printf("\n");
 
     delete[] array;
+    delete comp;
   }
 
   void sortIntDecTest()
@@ -64,5 +65,6 @@ private slots:
     printf("\n");
 
     delete[] array;
+    delete comp;
   }
 };
