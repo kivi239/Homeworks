@@ -1,5 +1,6 @@
 #ifndef POINTERLIST_H
 #define POINTERLIST_H
+#include <cstdio>
 
 template <typename T>
 /// @class PointerList
@@ -7,7 +8,7 @@ template <typename T>
 class PointerList
 {
 public:
-	PointerList(){}
+  PointerList();
 
 	~PointerList();
 
@@ -17,7 +18,7 @@ public:
 
 	int getLength() const { return length; }
 
-	bool isEmpty() { return list == NULL; }
+  bool isEmpty() { return head == NULL; }
 	bool isContained(T value) const;
 
 	void removeValue(T value);
@@ -35,17 +36,20 @@ protected:
 			next(nextElement)
 		{}
 	};
-	ListElement *list;
+  ListElement *head;
 	int length;
 };
 
 template <typename T>
+PointerList<T>::PointerList() : head(NULL), length(0) {}
+
+template <typename T>
 bool PointerList<T>::isContained(T value) const
 {
-	ListElement *temp = list;
-	int counter = 1;
-
-	while (counter > length)
+  ListElement *temp = head;
+  int counter = 0;
+  printf("here\n");
+  while (length > counter)
 	{
 		if (temp->value == value)
 			return true;
@@ -54,7 +58,7 @@ bool PointerList<T>::isContained(T value) const
 		counter++;
 	}
 
-	return false;
+  return false;
 }
 
 template <typename T>
@@ -62,38 +66,48 @@ void PointerList<T>::addInPos(T value, int position)
 {
 	if (isEmpty())
 	{
-		list = new ListElement(NULL, value);
+    head = new ListElement(NULL, value);
 		length++;
 		return;
 	}
 
 	if (position > length)
-		position = length + 1;
+    position = length;
 
-	ListElement *temp = list;
-	for (int i = 0; i < position; i++)
-		temp = temp->next;
-	ListElement *newElement = new ListElement(temp->next, value);
-	temp->next = newElement;
-	length++;
+  if (position == 1)
+  {
+    ListElement *newElement = new ListElement(head, value);
+    head = newElement;
+  }
+  else
+  {
+    ListElement *temp = head;
+    for (int i = 0; i < position - 1; i++)
+      temp = temp->next;
+    ListElement *newElement = new ListElement(temp->next, value);
+    temp->next = newElement;
+  }
+  length++;
 }
 
 template <typename T>
 void PointerList<T>::removeValue(T value)
 {
-	if (list->value == value)
+  if (head->value == value)
 	{
-		ListElement *deletedElement = list;
-		list = list->next;
+    ListElement *deletedElement = head;
+    head = head->next;
 		delete deletedElement;
 		length--;
 		return;
 	}
 
-	ListElement *temp = list;
+  ListElement *temp = head;
 
-	while (temp->next->value != value)
+  while (temp->next != NULL && temp->next->value != value)
 		temp = temp->next;
+  if (temp->next == NULL)
+    return;
 
 	ListElement *deletedElement = temp->next;
 	temp->next = temp->next->next;
@@ -104,14 +118,13 @@ void PointerList<T>::removeValue(T value)
 template <typename T>
 PointerList<T>::~PointerList()
 {
-	ListElement *temp = list;
-	while (list)
+  ListElement *temp = head;
+  while (head != NULL)
 	{
 		temp = temp->next;
-		delete list;
-		list = temp;
+    delete head;
+    head = temp;
 	}
-	delete list;
 }
 
 #endif // POINTERLIST_H

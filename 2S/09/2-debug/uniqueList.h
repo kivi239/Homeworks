@@ -2,6 +2,7 @@
 #define UNIQUELIST_H
 
 #include "pointerList.h"
+#include <cstdio>
 
 /**
  * @file uniqueList.h
@@ -43,16 +44,17 @@ public:
 template <typename T>
 void UniqueList<T>::addInPos(T value, int position) throw(uniqueListException::NotUniqueValue)
 {
-	if (!isContained(value))
-		throw uniqueListException::NotUniqueValue();
-
+  if (this->isContained(value))
+  {
+    throw uniqueListException::NotUniqueValue();
+  }
 	PointerList<T>::addInPos(value, position);
 }
 
 template <typename T>
 void UniqueList<T>::removeValue(T value) throw(uniqueListException::NoSuchValue)
 {
-	if (isContained(value))
+  if (!this->isContained(value))
 	{
 		throw uniqueListException::NoSuchValue();
 	}

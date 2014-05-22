@@ -3,6 +3,7 @@
 
 #include <QtCore/QObject>
 #include <QtTest/QtTest>
+#include <cstdio>
 
 #include "uniqueList.h"
 
@@ -34,6 +35,7 @@ private slots:
 
 	void testAdd()
 	{
+    printf("blablabla\n");
 		testList->addInPos(3, 5);
 	}
 
@@ -46,7 +48,7 @@ private slots:
 		QVERIFY(!testList->isContained(5));
 	}
 
-	void testAddFirst()
+  void testAddFirst()
 	{
 		testList->addFirst(5);
 	}
@@ -72,6 +74,7 @@ private slots:
 
 	void testAddThrow()
 	{
+    printf("here\n");
 		testList->addFirst(5);
 		try
 		{
@@ -80,6 +83,7 @@ private slots:
 		}
 		catch(uniqueListException::NoSuchValue const &)
 		{
+      printf("wwwwwwwttttttttfffffff\n");
 			QVERIFY(false);
 		}
 		catch(uniqueListException::NotUniqueValue const &)
@@ -104,7 +108,7 @@ private slots:
 		{
 			QVERIFY(false);
 		}
-	}
+  }
 
 private:
 	UniqueList<int> *testList;
