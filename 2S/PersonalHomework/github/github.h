@@ -10,6 +10,7 @@
 #include <QGridLayout>
 #include <QImage>
 #include <QPixmap>
+#include <QMap>
 
 namespace Ui {
 class Github;
@@ -56,5 +57,5 @@ private:
   QByteArray contentRepos;
   QByteArray contentCommits;
 
-  QPixmap *image;
+  QMap<QNetworkReply *, QWidget *> loaderImage;
 };

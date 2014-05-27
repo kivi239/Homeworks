@@ -5,7 +5,6 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QString>
-#include <QDebug>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -60,9 +59,7 @@ void Github::drawStart()
 void Github::selectUserClicked()
 {
   QString name = user->text();
-  qDebug() << name << "\n";
   QNetworkReply *reply = manager->get(QNetworkRequest(QUrl("https://api.github.com/users/" + name + "/repos")));
-  qDebug() << "https://api.github.com/users/" + name << "\n";
   userName = new QLabel;
   userName->setText("User: " + name);
 
@@ -95,8 +92,6 @@ void Github::drawRepo()
   for (auto json : doc.array())
   {
     QString repoName = json.toObject()["name"].toString();
-    qDebug() << repoName;
-
     repositories->addItem(repoName);
   }
   connect(repositories, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(reposClicked(QListWidgetItem *)));
@@ -160,8 +155,6 @@ void Github::reposClicked(QListWidgetItem *repository)
   userRepos->setText("Repository: " + repository->text());
 
   QNetworkReply *reply = manager->get(QNetworkRequest(QUrl("https://api.github.com/repos/" + userName->text().mid(6) + "/" + repository->text() + "/commits")));
-  qDebug() << "!!! " << ("https://api.github.com/repos/" + userName->text().mid(6) + "/" + repository->text() + "/commits") << '\n';
-
   backToStart->setEnabled(false);
   repositories->setEnabled(false);
 
@@ -196,26 +189,20 @@ void Github::drawCommits()
 
   commits = new QScrollArea;
   commits->setWidgetResizable(true);
-
-  QLayout *layoutCommits = new QGridLayout;
-  commits->setLayout(layoutCommits);
+  QWidget *w = new QWidget(this);
+  w->setLayout(new QVBoxLayout(w));
+  commits->setWidget(w);
 
   QJsonDocument doc = QJsonDocument::fromJson(contentCommits);
-  qDebug() << doc.isArray()<< ' ' << doc.isObject() << ' ' << doc.isEmpty();
   int cnt = 0;
   for (auto json : doc.array())
   {
-    if (cnt > 4)
-      break;
     QString name = json.toObject()["commit"].toObject()["author"].toObject()["name"].toString();
     QString sha = json.toObject()["sha"].toString();
     QString date = json.toObject()["commit"].toObject()["author"].toObject()["date"].toString();
     QString comment = json.toObject()["commit"].toObject()["message"].toString();
 
     QString imageAddress = json.toObject()["author"].toObject()["avatar_url"].toString();
-
-    QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(imageAddress)));
-    connect(reply, &QNetworkReply::finished, this, &Github::loadPicture);
 
     QLabel *nameLabel = new QLabel("Author: " + name);
     nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -226,8 +213,13 @@ void Github::drawCommits()
     QLabel *commentLabel = new QLabel("Comment: " + comment);
     commentLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-
     QWidget *commit = new QWidget;
+
+    QPixmap image;
+    QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(imageAddress)));
+    connect(reply, &QNetworkReply::finished, this, &Github::loadPicture);
+    loaderImage[reply] = commit;
+
     QLayout *lay = new QGridLayout;
     commit->setLayout(lay);
 
@@ -236,14 +228,13 @@ void Github::drawCommits()
     commit->layout()->addWidget(dateLabel);
     commit->layout()->addWidget(commentLabel);
 
-    commits->layout()->addWidget(commit);
+    w->layout()->addWidget(commit);
     cnt++;
   }
 
-
   ui->gridLayout->addWidget(backToRepository, 0, 0);
   ui->gridLayout->addWidget(userRepos, 2, 0);
-  ui->gridLayout->addWidget(commits, 3, 0, 3 + cnt * 4, 0);
+  ui->gridLayout->addWidget(commits, 3, 0);
 }
 
 void Github::backToReposClicked()
@@ -251,7 +242,6 @@ void Github::backToReposClicked()
   delete backToRepository;
   delete userRepos;
   delete commits;
-  delete image;
 
   drawRepo();
 }
@@ -260,8 +250,12 @@ void Github::loadPicture()
 {
   QNetworkReply *reply = dynamic_cast<QNetworkReply *>(sender());
   QByteArray content = reply->readAll();
-  image = new QPixmap;
-  image->loadFromData(content);
+  QPixmap image;
+  image.loadFromData(content);
+  QWidget *commit = loaderImage[reply];
+  QLabel *imageLabel = new QLabel;
+  imageLabel->setPixmap(image);
+  commit->layout()->addWidget(imageLabel);
 }
 
 Github::~Github()
