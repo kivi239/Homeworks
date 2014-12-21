@@ -60,7 +60,7 @@ std::string Network::status()
 
 bool Network::willBeInfected(int id)
 {
-  return generator->getRandom() < computers[id].getProbability();
+  return generator->getRandom() <= computers[id].getProbability();
 }
 
 void Network::makeMove()

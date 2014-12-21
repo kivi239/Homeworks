@@ -43,7 +43,7 @@ private slots:
     matrix[0][1] = true;
     matrix[1][2] = true;
     std::vector<double> probs;
-    probs.push_back(0.5);
+    probs.push_back(1);
     probs.push_back(1);
     probs.push_back(1);
     Generator *generator = new RandomGenerator();
@@ -76,9 +76,7 @@ private slots:
 
     Network network(infections, probs, matrix, generator);
     network.makeMove();
-    std::string status = network.status();
-    //std::cerr << status << std::endl;
-    QVERIFY(status == "1, 2");
+    QVERIFY(network.status() == "1, 2");
     for (int i = 0; i < 3; i++)
       delete[] matrix[i];
     delete[] matrix;
