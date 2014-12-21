@@ -1,6 +1,4 @@
-#ifndef GRAPH_H
-#define GRAPH_H
-
+#pragma once
 #include <vector>
 
 class Graph
@@ -28,5 +26,3 @@ private:
   std::vector<bool> robotsAt;
   bool *was;
 };
-
-#endif // GRAPH_H
