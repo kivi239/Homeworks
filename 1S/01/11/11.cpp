@@ -2,6 +2,9 @@
 #include <cstdlib>
 #include <ctime>
 
+#include <iostream>
+using namespace std;
+
 const int maxSize = 100500;
 
 void swap(int& x, int& y)
@@ -34,7 +37,7 @@ void quickSort(int* a, int l, int r)
       j--;
     }
   } 
-
+  cerr << i << endl;
   if (l < j)
     quickSort(a, l, j);
   if (i < r)

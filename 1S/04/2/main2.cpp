@@ -43,7 +43,7 @@ void parse(CharStack &s, char c)
   }
   if (c == ')')
   {
-    while (s.head->value != '(')
+    while (top(s) != '(')
       printf("%c ", pop(s));
     pop(s);
   }

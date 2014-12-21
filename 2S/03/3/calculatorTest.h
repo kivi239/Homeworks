@@ -12,7 +12,7 @@ private slots:
   void addTest()
   {
     CalculatorFunc calc(3, "+");
-    QVERIFY(calc.calc(5) == "8.000000");
+    QCOMPARE(calc.calc(5), QString("8.000000"));
     QVERIFY(calc.calc(2) == "10.000000");
   }
 

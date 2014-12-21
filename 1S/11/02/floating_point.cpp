@@ -1,6 +1,9 @@
 #include <cstdio>
 #include <cstring>
 
+#include <iostream>
+using namespace std;
+
 enum States
 {
   startCode,
@@ -24,9 +27,10 @@ bool isDigit(char c)
 bool isCorrect(char *number, int length)
 {
   int state = startCode;
-  for (int i = 0; i < length; i++)                                                                                                  
+  for (int i = 0; i < length; i++)                                                                                                 
   {
     char cur = number[i];
+    cerr << state << endl;
     if (state == startCode)
     {
       if (isDigit(cur))
@@ -86,7 +90,7 @@ bool isCorrect(char *number, int length)
         state = errorCode;
     }
   }
-
+  
   return (state == numberCode || state == fracPartCode || state == expCode);
 }
 

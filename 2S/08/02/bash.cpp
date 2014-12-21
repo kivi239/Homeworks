@@ -59,7 +59,7 @@ Bash::Bash(QWidget *parent) :
   quote->setEnabled(false);
   generate(0);
   quote->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
+  
   makeDisabled();
   QGridLayout *buttons = new QGridLayout;
   buttons->addWidget(prevButton, 0, 0);
