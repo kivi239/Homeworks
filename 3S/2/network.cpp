@@ -3,7 +3,8 @@
 #include <ctime>
 #include <sstream>
 
-Network::Network(std::vector<int> infections, std::vector<double> probabilities, bool **adjaency)
+Network::Network(std::vector<int> infections, std::vector<double> probabilities,
+                 bool **adjaency, Generator *generator) : generator(generator)
 {
   srand(time(NULL));
   countOfComputers = probabilities.size();
@@ -30,6 +31,7 @@ Network::~Network()
     delete[] matrix[i];
   delete[] matrix;
   computers.clear();
+  delete generator;
 }
 
 std::string intToStr(int num)
@@ -58,8 +60,7 @@ std::string Network::status()
 
 bool Network::willBeInfected(int id)
 {
-  double probability = (double)(rand() % 100 + 1) / 100;
-  return probability < computers[id].getProbability();
+  return generator->getRandom() < computers[id].getProbability();
 }
 
 void Network::makeMove()

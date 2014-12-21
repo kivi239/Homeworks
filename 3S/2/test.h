@@ -2,7 +2,8 @@
 #include <QObject>
 #include <QtTest/QtTest>
 #include "network.h"
-#include <iostream>
+#include "randomgenerator.h"
+#include "notrandomgenerator.h"
 
 class Test : public QObject
 {
@@ -19,7 +20,8 @@ private slots:
     matrix[0][0] = false;
     std::vector<double> probs;
     probs.push_back(0.5);
-    Network network(infections, probs, matrix);
+    Generator *generator = new RandomGenerator();
+    Network network(infections, probs, matrix, generator);
 
     delete[] matrix[0];
     delete[] matrix;
@@ -44,7 +46,8 @@ private slots:
     probs.push_back(0.5);
     probs.push_back(1);
     probs.push_back(1);
-    Network network(infections, probs, matrix);
+    Generator *generator = new RandomGenerator();
+    Network network(infections, probs, matrix, generator);
     network.makeMove();
     network.makeMove();
     QVERIFY(network.status() == "1, 2, 3");
@@ -67,13 +70,15 @@ private slots:
     matrix[0][2] = true;
     std::vector<double> probs;
     probs.push_back(0.5);
+    probs.push_back(0.8);
     probs.push_back(0.5);
-    probs.push_back(0.5);
-    Network network(infections, probs, matrix);
+    Generator *generator = new NotRandomGenerator();
+
+    Network network(infections, probs, matrix, generator);
     network.makeMove();
     std::string status = network.status();
-    std::cerr << status << std::endl;
-    QVERIFY(status == "1, 2, 3" || status == "1" || status == "1, 2" || status == "1, 3");
+    //std::cerr << status << std::endl;
+    QVERIFY(status == "1, 2");
     for (int i = 0; i < 3; i++)
       delete[] matrix[i];
     delete[] matrix;

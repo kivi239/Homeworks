@@ -18,9 +18,15 @@ TEMPLATE = app
 SOURCES += main.cpp \
     computer.cpp \
     network.cpp \
-    test.cpp
+    test.cpp \
+    generator.cpp \
+    randomgenerator.cpp \
+    notrandomgenerator.cpp
 
 HEADERS += \
     computer.h \
     network.h \
-    test.h
+    test.h \
+    generator.h \
+    randomgenerator.h \
+    notrandomgenerator.h
