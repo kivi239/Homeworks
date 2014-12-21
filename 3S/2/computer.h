@@ -5,11 +5,6 @@ class Computer
 public:
   Computer(double p = 0);
   /**
-   * @brief setProbability set the probability of being infected
-   * @param p probability
-   */
-  //void setProbability(double p);
-  /**
    * @brief getProbability get the probability of being infected
    * @return probability
    */
