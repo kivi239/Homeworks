@@ -1,6 +1,7 @@
 #include "network.h"
 #include <algorithm>
 #include <ctime>
+#include <sstream>
 
 Network::Network(std::vector<int> infections, std::vector<double> probabilities, bool **adjaency)
 {
@@ -33,20 +34,16 @@ Network::~Network()
 
 std::string intToStr(int num)
 {
-  std::string ans = "";
-  while (num > 0)
-  {
-    ans += (num % 10) + '0';
-    num /= 10;
-  }
-  for (int i = 0; i < (int)ans.size() / 2; i++)
-    std::swap(ans[i], ans[ans.size() - i - 1]);
+  std::stringstream stream;
+  stream << num;
+  std::string ans;
+  stream >> ans;
   return ans;
 }
 
 std::string Network::status()
 {
-  std::string ans = "";
+  std::string ans;
   int lastInfected = -1;
   for (int i = 0; i < countOfComputers; i++)
     if (computers[i].isInfected())
@@ -67,19 +64,17 @@ bool Network::willBeInfected(int id)
 
 void Network::makeMove()
 {
-  bool *newInfections = new bool[countOfComputers];
+  std::vector<bool> newInfections;
   for (int i = 0; i < countOfComputers; i++)
-    newInfections[i] = computers[i].isInfected();
+    newInfections.push_back(computers[i].isInfected());
   for (int i = 0; i < countOfComputers; i++)
     if (computers[i].isInfected())
     for (int j = 0; j < countOfComputers; j++)
     {
       if (!matrix[i][j])
         continue;
-      newInfections[j] |= willBeInfected(j);
+      newInfections[j] = newInfections[j] || willBeInfected(j);
     }
   for (int i = 0; i < countOfComputers; i++)
     computers[i].setInfected(newInfections[i]);
-
-  delete[] newInfections;
 }

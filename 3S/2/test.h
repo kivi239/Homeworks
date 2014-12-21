@@ -2,6 +2,7 @@
 #include <QObject>
 #include <QtTest/QtTest>
 #include "network.h"
+#include <iostream>
 
 class Test : public QObject
 {
@@ -71,6 +72,7 @@ private slots:
     Network network(infections, probs, matrix);
     network.makeMove();
     std::string status = network.status();
+    std::cerr << status << std::endl;
     QVERIFY(status == "1, 2, 3" || status == "1" || status == "1, 2" || status == "1, 3");
     for (int i = 0; i < 3; i++)
       delete[] matrix[i];
