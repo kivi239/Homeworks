@@ -5,10 +5,10 @@ data Tree a = Leaf a | Branch (Tree a) a (Tree a)
 findElement :: (a -> Bool) -> Tree a -> [a]
 
 findElement cond (Leaf n) = if (cond n) then [n]
-							else []
+                            else []
 
-findElement cond (Branch l n r) = if (cond n) then (n : findElement cond l) ++ findElement cond r
-								  else (findElement cond l) ++ (findElement cond r)
+findElement cond (Branch l n r) = if (cond n) then (n : findElement cond l) ++ findElement cond r 
+                                  else (findElement cond l) ++ (findElement cond r)
 
 tree = Branch (Branch (Leaf (-4)) 2 (Leaf (-5))) 1 (Branch (Leaf 6) 3 (Leaf 7))
 
