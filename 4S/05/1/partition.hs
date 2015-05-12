@@ -4,15 +4,15 @@ printPartition' :: [[Int]] -> IO()
 printPartition n = printPartition' (partition n)
 printPartition' [x] = printList x
 printPartition' (x:xs) = do
-						printList x
-						printPartition' xs
+                        printList x
+                        printPartition' xs
 
 printList :: [Int] -> IO()
 printList [n] = print n
 printList (x:xs) = do
-				putStr . show $ x
-				putChar '+'
-				printList xs
+                putStr . show $ x
+                putChar '+'
+                printList xs
 
 partition :: Int -> [[Int]]
 partition n = partition' n 1
